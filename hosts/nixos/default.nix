@@ -1,8 +1,11 @@
 { config, inputs, pkgs, agenix, ... }:
 
-let user = "marla";
-    keys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOk8iAnIaa1deoc7jw8YACPNVka1ZFJxhnU4G74TmS+p" ]; in
-{
+let
+  user = "marla";
+  keys = [
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOk8iAnIaa1deoc7jw8YACPNVka1ZFJxhnU4G74TmS+p"
+  ];
+in {
   imports = [
     ../../modules/nixos/secrets.nix
     ../../modules/nixos/disk-config.nix
@@ -20,7 +23,8 @@ let user = "marla";
       };
       efi.canTouchEfiVariables = true;
     };
-    initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" ];
+    initrd.availableKernelModules =
+      [ "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" ];
     # Uncomment for AMD GPU
     # initrd.kernelModules = [ "amdgpu" ];
     kernelPackages = pkgs.linuxPackages_latest;
@@ -28,7 +32,7 @@ let user = "marla";
   };
 
   # Set your time zone.
-  time.timeZone = "America/New_York";
+  time.timeZone = "America/Sao_Paulo";
 
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.
   # Per-interface useDHCP will be mandatory in the future, so this generated config
@@ -41,13 +45,14 @@ let user = "marla";
 
   # Turn on flag for proprietary software
   nix = {
-    nixPath = [ "nixos-config=/home/${user}/.local/share/src/nixos-config:/etc/nixos" ];
+    nixPath =
+      [ "nixos-config=/home/${user}/.local/share/src/nixos-config:/etc/nixos" ];
     settings.allowed-users = [ "${user}" ];
     package = pkgs.nix;
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
-   };
+  };
 
   # Manages keys and such
   programs = {
@@ -85,9 +90,7 @@ let user = "marla";
       };
 
       # Tiling window manager
-      windowManager.bspwm = {
-        enable = true;
-      };
+      windowManager.bspwm = { enable = true; };
 
       # Turn Caps Lock into Ctrl
       layout = "us";
@@ -99,25 +102,6 @@ let user = "marla";
 
     # Let's be able to SSH into this machine
     openssh.enable = true;
-
-    # Sync state between machines
-    # Sync state between machines
-    syncthing = {
-      enable = true;
-      openDefaultPorts = true;
-      dataDir = "/home/${user}/.local/share/syncthing";
-      configDir = "/home/${user}/.config/syncthing";
-      user = "${user}";
-      group = "users";
-      guiAddress = "127.0.0.1:8384";
-      overrideFolders = true;
-      overrideDevices = true;
-
-      settings = {
-        devices = {};
-        options.globalAnnounceEnabled = false; # Only sync on LAN
-      };
-    };
 
     # Picom, my window compositor with fancy effects
     #
@@ -143,13 +127,11 @@ let user = "marla";
         animation-for-menu-window = "none";
         animation-for-transient-window = "slide-down";
         corner-radius = 12;
-        rounded-corners-exclude = [
-          "class_i = 'polybar'"
-          "class_g = 'i3lock'"
-        ];
+        rounded-corners-exclude =
+          [ "class_i = 'polybar'" "class_g = 'i3lock'" ];
         round-borders = 3;
-        round-borders-exclude = [];
-        round-borders-rule = [];
+        round-borders-exclude = [ ];
+        round-borders-rule = [ ];
         shadow = true;
         shadow-radius = 8;
         shadow-opacity = 0.4;
@@ -160,8 +142,7 @@ let user = "marla";
         frame-opacity = 0.7;
         inactive-opacity-override = false;
         active-opacity = 1.0;
-        focus-exclude = [
-        ];
+        focus-exclude = [ ];
 
         opacity-rule = [
           "100:class_g = 'i3lock'"
@@ -180,13 +161,9 @@ let user = "marla";
           kern = "3x3box";
         };
 
-        shadow-exclude = [
-          "class_g = 'Dunst'"
-        ];
+        shadow-exclude = [ "class_g = 'Dunst'" ];
 
-        blur-background-exclude = [
-          "class_g = 'Dunst'"
-        ];
+        blur-background-exclude = [ "class_g = 'Dunst'" ];
 
         backend = "glx";
         vsync = false;
@@ -200,8 +177,17 @@ let user = "marla";
         log-level = "info";
 
         wintypes = {
-          normal = { fade = true; shadow = false; };
-          tooltip = { fade = true; shadow = false; opacity = 0.75; focus = true; full-shadow = false; };
+          normal = {
+            fade = true;
+            shadow = false;
+          };
+          tooltip = {
+            fade = true;
+            shadow = false;
+            opacity = 0.75;
+            focus = true;
+            full-shadow = false;
+          };
           dock = { shadow = false; };
           dnd = { shadow = false; };
           popup_menu = { opacity = 1.0; };
@@ -221,9 +207,7 @@ let user = "marla";
   };
 
   # When emacs builds from no cache, it exceeds the 90s timeout default
-  systemd.user.services.emacs = {
-    serviceConfig.TimeoutStartSec = "7min";
-  };
+  systemd.user.services.emacs = { serviceConfig.TimeoutStartSec = "7min"; };
 
   # Enable CUPS to print documents
   # services.printing.enable = true;
@@ -242,11 +226,10 @@ let user = "marla";
     # xone.enable = true;
 
     # Crypto wallet support
-    ledger.enable = true;
+    # ledger.enable = true;
   };
 
-
- # Add docker daemon
+  # Add docker daemon
   virtualisation.docker.enable = true;
   virtualisation.docker.logDriver = "json-file";
 
@@ -254,30 +237,22 @@ let user = "marla";
   users.users = {
     ${user} = {
       isNormalUser = true;
-      extraGroups = [
-        "wheel" # Enable ‘sudo’ for the user.
-        "docker"
-      ];
+      extraGroups = [ "wheel" "docker" ];
       shell = pkgs.zsh;
       openssh.authorizedKeys.keys = keys;
     };
 
-    root = {
-      openssh.authorizedKeys.keys = keys;
-    };
+    root = { openssh.authorizedKeys.keys = keys; };
   };
 
   # Don't require password for users in `wheel` group for these commands
-  security.sudo = {
+  security.sudo.enable = false;
+  security.doas = {
     enable = true;
     extraRules = [{
-      commands = [
-       {
-         command = "${pkgs.systemd}/bin/reboot";
-         options = [ "NOPASSWD" ];
-        }
-      ];
-      groups = [ "wheel" ];
+      users = [ "${user}" ];
+      keepEnv = true;
+      persist = true;
     }];
   };
 
