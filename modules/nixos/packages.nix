@@ -1,12 +1,11 @@
 { pkgs }:
 
 with pkgs;
-let shared-packages = import ../shared/packages.nix { inherit pkgs; }; in
-shared-packages ++ [
+let shared-packages = import ../shared/packages.nix { inherit pkgs; };
+in shared-packages ++ [
 
   # Security and authentication
   yubikey-agent
-  keepassxc
 
   # App and package management
   appimage-run
