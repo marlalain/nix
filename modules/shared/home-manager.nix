@@ -18,8 +18,8 @@ in {
       fi
 
       # Define variables for directories
-      export PATH=$HOME/.local/share/bin:${pkgs.emacs}/bin::$PATH
-      export DOOMDIR="/Users/marla/.config/nix/modules/shared/doom  "
+      export PATH=$HOME/.local/share/bin:${pkgs.emacs}/bin:$HOME/.config/emacs/bin:$PATH
+      export DOOMDIR="/Users/marla/.config/nix/modules/shared/doom"
 
       # Remove history data we don't want to see
       export HISTIGNORE="pwd:ls:cd"
@@ -73,16 +73,19 @@ in {
       cursor = { style = "Block"; };
 
       window = {
-        opacity = 1.0;
+        dynamic_padding = false;
+        decorations = "None";
+        opacity = 0.8;
+        blur = true;
         padding = {
-          x = 24;
-          y = 24;
+          x = 0;
+          y = 0;
         };
       };
 
       font = {
         normal = {
-          family = "MesloLGS NF";
+          family = "JetBrains Mono";
           style = "Regular";
         };
         size = lib.mkMerge [
@@ -91,13 +94,6 @@ in {
         ];
       };
 
-      dynamic_padding = true;
-      decorations = "full";
-      title = "Terminal";
-      class = {
-        instance = "Alacritty";
-        general = "Alacritty";
-      };
 
       colors = {
         primary = {
