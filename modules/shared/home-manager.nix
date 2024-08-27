@@ -1,11 +1,64 @@
-{ config, pkgs, lib, ... }:
+{ pkgs, lib, ... }:
 
 let
   name = "Marla Albuquerque";
   user = "marla";
   email = "marla@albuque.com";
 in {
-  # Shared shell configuration
+  nushell = {
+    enable = true;
+    configFile.source = ./config/config.nu;
+  };
+
+  starship = {
+    enable = true;
+    enableNushellIntegration = true;
+    settings = {
+      add_newline = false;
+      format = lib.concatStrings [ "$nix_shell" "$direnv" "$status" "$character" ];
+      right_format = lib.concatStrings [ "$git_metrics" "$cmd_duration" "$jobs" "$git_branch" "$git_state" "$username" "@" "$hostname" ];
+      character = {
+        success_symbol = "[%](bold green)";
+        error_symbol = "[%](bold red)";
+      };
+      status = {
+        disabled = false;
+        format = "[$status]($style) ";
+        map_symbol = true;
+      };
+      hostname = {
+        ssh_only = false;
+        format = "$hostname";
+      };
+      username = {
+        show_always = true;
+        format = "$user";
+      };
+      cmd_duration = {
+        show_notifications = true;
+        min_time = 300000;
+        min_time_to_notify = 300000;
+        format = "$duration ";
+      };
+      jobs = {
+        format = "-j $number ";
+      };
+      git_state = {
+        style = "bold bg:yellow fg:black";
+      };
+      git_metrics = {
+        ignore_submodules = true;
+        disabled = false;
+        format = "([+$added]($added_style) )([-$deleted]($deleted_style) )";
+      };
+      git_branch = {
+        format = "[$branch]($style) ";
+        style = "bold";
+        ignore_branches = [ "main" "master" ];
+      };
+    };
+  };
+
   zsh = {
     enable = true;
     autocd = false;
@@ -180,7 +233,7 @@ in {
       }
     ];
     terminal = "screen-256color";
-    prefix = "C-x";
+    prefix = "C-a";
     escapeTime = 10;
     historyLimit = 50000;
     extraConfig = ''
@@ -189,6 +242,19 @@ in {
 
       # Enable full mouse support
       set -g mouse on
+
+      set -g @tmux_power_date_icon ' '
+      set -g @tmux_power_time_icon ' '
+      set -g @tmux_power_user_icon ' '
+      set -g @tmux_power_session_icon ' '
+      set -g @tmux_power_show_upload_speed    true
+      set -g @tmux_power_show_download_speed  true
+      set -g @tmux_power_show_web_reachable   true
+      set -g @tmux_power_right_arrow_icon     ' '
+      set -g @tmux_power_left_arrow_icon      ' '
+      set -g @tmux_power_upload_speed_icon    ' '
+      set -g @tmux_power_download_speed_icon  ' '
+      set -g @tmux_power_prefix_highlight_pos 'R'set -g @tmux_power_date_icon ' '
 
       # -----------------------------------------------------------------------------
       # Key bindings
