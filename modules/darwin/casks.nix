@@ -5,10 +5,13 @@ _:
 
   "discord"
   "slack"
+  "signal"
 
   "vlc"
 
   "raycast"
 
-  "arc-browser"
+  "arc"
+  "1password"
+  "webstorm"
 ]

@@ -233,4 +233,12 @@ in {
       bind-key -T copy-mode-vi 'C-\' select-pane -l
     '';
   };
+
+  lazygit = {
+    enable = true;
+  };
+
+  gh = {
+    enable = true;
+  };
 }
