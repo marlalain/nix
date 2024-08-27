@@ -243,4 +243,6 @@ in {
     enable = true;
     gitCredentialHelper.enable = true;
   };
+
+  ripgrep.enable = true;
 }
