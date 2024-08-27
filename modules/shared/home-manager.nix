@@ -18,7 +18,8 @@ in {
       fi
 
       # Define variables for directories
-      export PATH=$HOME/.local/share/bin:$PATH
+      export PATH=$HOME/.local/share/bin:${pkgs.emacs}/bin::$PATH
+      export DOOMDIR="/Users/marla/.config/nix/modules/shared/doom  "
 
       # Remove history data we don't want to see
       export HISTIGNORE="pwd:ls:cd"
@@ -60,7 +61,7 @@ in {
         editor = "vim";
         autocrlf = "input";
       };
-      commit.gpgsign = true;
+      commit.gpgsign = false;
       pull.rebase = true;
       rebase.autoStash = true;
     };
@@ -240,5 +241,6 @@ in {
 
   gh = {
     enable = true;
+    gitCredentialHelper.enable = true;
   };
 }
