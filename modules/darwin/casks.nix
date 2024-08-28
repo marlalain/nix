@@ -3,15 +3,21 @@ _:
 [
   # "homebrew/cask/docker"
 
+  # communication
   "discord"
-  "slack"
   "signal"
 
+  # video
   "vlc"
 
+  # must haves
   "raycast"
-
   "arc"
   "1password"
-  "webstorm"
+
+  # dev/work related
+  "slack"
+  "figma"
+  "webstorm" # TODO if possible, should be changed to ../shared/packages.nix
+  "intellij-idea" # TODO if possible, should be changed to ../shared/packages.nix
 ]
