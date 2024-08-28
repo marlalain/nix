@@ -315,4 +315,13 @@ in {
   };
 
   ripgrep.enable = true;
+
+  ledger = {
+    enable = true;
+    settings = {
+      date-format = "%d-%m-$Y";
+      sort = "date";
+      strict = true;
+    };
+  };
 }
