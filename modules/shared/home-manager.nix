@@ -226,7 +226,8 @@ in {
         # Use XDG data directory
         # https://github.com/tmux-plugins/tmux-resurrect/issues/348
         extraConfig = ''
-          set -g @resurrect-dir '$HOME/.cache/tmux/resurrect'
+          set -g @resurrect-dir '${(lib.mkIf pkgs.stdenv.hostPlatform.isLinux "/home/${user}")
+            (lib.mkIf pkgs.stdenv.hostPlatform.isDarwin "/Users/${user}")}/.cache/tmux/resurrect'
           set -g @resurrect-capture-pane-contents 'on'
           set -g @resurrect-pane-contents-area 'visible'
         '';
