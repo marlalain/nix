@@ -103,6 +103,12 @@ in {
     '';
   };
 
+  carapace = {
+    enable = true;
+    enableZshIntegration = true;
+    enableNushellIntegration = true;
+  };
+
   git = {
     enable = true;
     ignores = [ "*.swp" ];
