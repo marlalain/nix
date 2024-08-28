@@ -18,8 +18,8 @@ in {
       format = lib.concatStrings [ "$nix_shell" "$direnv" "$status" "$character" ];
       right_format = lib.concatStrings [ "$git_metrics" "$cmd_duration" "$jobs" "$git_branch" "$git_state" "$username" "@" "$hostname" ];
       character = {
-        success_symbol = "[%](bold green)";
-        error_symbol = "[%](bold red)";
+        success_symbol = "[;](bold green)";
+        error_symbol = "[;](bold red)";
       };
       status = {
         disabled = false;
@@ -38,7 +38,8 @@ in {
         show_notifications = true;
         min_time = 300000;
         min_time_to_notify = 300000;
-        format = "$duration ";
+        format = "[$duration]($style) ";
+        style = "bold red";
       };
       jobs = {
         format = "-j $number ";
