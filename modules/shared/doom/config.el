@@ -1,7 +1,7 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
 (setq-default indent-tabs-mode t
-              tab-width 2)
+	      tab-width 2)
 (setq indent-line-function 'insert-tab)
 
 (setq user-full-name "Marla Albuquerque"
