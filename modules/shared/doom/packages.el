@@ -50,3 +50,6 @@
 ;; (unpin! t)
 
 (package! nushell-mode :recipe (:host github :repo "mrkkrp/nushell-mode"))
+(package! elcord :recipe (:host github :repo "Mstrodl/elcord"))
+(package! org-modern)
+(package! async)

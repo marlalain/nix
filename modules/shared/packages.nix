@@ -1,6 +1,8 @@
 { pkgs }:
 
 with pkgs; [
+  discordo
+
   # General packages for development and system management
   alacritty
   bat
@@ -43,4 +45,7 @@ with pkgs; [
   tmux
   unrar
   unzip
+  plantuml
+
+  devenv
 ]

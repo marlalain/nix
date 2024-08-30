@@ -7,8 +7,8 @@ _:
   "discord"
   "signal"
 
-  # video
   "vlc"
+  "tidal"
 
   # must haves
   "raycast"
@@ -20,4 +20,8 @@ _:
   "figma"
   "webstorm" # TODO if possible, should be changed to ../shared/packages.nix
   "intellij-idea" # TODO if possible, should be changed to ../shared/packages.nix
+  "postman"
+
+  "nzbget"
+  "tor-browser"
 ]

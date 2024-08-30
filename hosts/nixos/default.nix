@@ -38,7 +38,7 @@ in {
   # Per-interface useDHCP will be mandatory in the future, so this generated config
   # replicates the default behaviour.
   networking = {
-    hostName = "%HOST%"; # Define your hostname.
+    hostName = "s11c-keyboard"; # Define your hostname.
     useDHCP = false;
     interfaces."%INTERFACE%".useDHCP = true;
   };
@@ -101,7 +101,7 @@ in {
     };
 
     # Let's be able to SSH into this machine
-    openssh.enable = true;
+    openssh.enable = false;
 
     # Picom, my window compositor with fancy effects
     #

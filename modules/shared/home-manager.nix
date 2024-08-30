@@ -117,13 +117,16 @@ in {
     lfs = { enable = true; };
     extraConfig = {
       init.defaultBranch = "main";
+      commit.gpgsign = false;
+      pull.rebase = true;
+      rebase.autoStash = true;
+      github = {
+        user = "marlalain";
+      };
       core = {
         editor = "vim";
         autocrlf = "input";
       };
-      commit.gpgsign = false;
-      pull.rebase = true;
-      rebase.autoStash = true;
     };
   };
 
@@ -134,7 +137,7 @@ in {
 
       window = {
         dynamic_padding = false;
-        decorations = "None";
+        # decorations = "None";
         opacity = 0.8;
         blur = true;
         padding = {
@@ -225,9 +228,8 @@ in {
 
         # Use XDG data directory
         # https://github.com/tmux-plugins/tmux-resurrect/issues/348
+        # FIXME Missing `set -g @resurrect-dir`
         extraConfig = ''
-          set -g @resurrect-dir '${(lib.mkIf pkgs.stdenv.hostPlatform.isLinux "/home/${user}")
-            (lib.mkIf pkgs.stdenv.hostPlatform.isDarwin "/Users/${user}")}/.cache/tmux/resurrect'
           set -g @resurrect-capture-pane-contents 'on'
           set -g @resurrect-pane-contents-area 'visible'
         '';

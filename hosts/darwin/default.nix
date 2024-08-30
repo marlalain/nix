@@ -36,6 +36,7 @@ let user = "marla"; in
   # Turn off NIX_PATH warnings now that we're using flakes
   system.checks.verifyNixPath = false;
 
+  environment.variables.DOOMDIR = "/Users/${user}/.config/nix/modules/shared/doom";
   # Load configuration that is shared across systems
   environment.systemPackages = with pkgs; [
     emacs-unstable
@@ -52,6 +53,7 @@ let user = "marla"; in
     ];
     StandardErrorPath = "/tmp/emacs.err.log";
     StandardOutPath = "/tmp/emacs.out.log";
+    UserName = "${user}";
   };
 
   system = {
