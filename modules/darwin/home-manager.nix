@@ -12,7 +12,6 @@ let
 in {
   imports = [ ./dock ];
 
-  # It me
   users.users.${user} = {
     name = "${user}";
     home = "/Users/${user}";
@@ -70,20 +69,6 @@ in {
       entries = [
         { path = "/Applications/Slack.app/"; }
         { path = "${pkgs.alacritty}/Applications/Alacritty.app/"; }
-        {
-          path = toString myEmacsLauncher;
-          section = "others";
-        }
-        {
-          path = "${config.users.users.${user}.home}/.local/share/";
-          section = "others";
-          options = "--sort name --view grid --display folder";
-        }
-        {
-          path = "${config.users.users.${user}.home}/.local/share/downloads";
-          section = "others";
-          options = "--sort name --view grid --display stack";
-        }
       ];
     };
   };

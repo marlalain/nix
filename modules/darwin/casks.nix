@@ -24,4 +24,5 @@ _:
 
   "nzbget"
   "tor-browser"
+  "httpie"
 ]

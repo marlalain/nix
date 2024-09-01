@@ -326,4 +326,9 @@ in {
       strict = true;
     };
   };
+
+  emacs = {
+    enable = true;
+    extraPackages = epkgs: with epkgs; [sqlite pdf-tools vterm];
+  };
 }
