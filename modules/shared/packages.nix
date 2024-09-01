@@ -48,4 +48,5 @@ with pkgs; [
   plantuml
 
   devenv
+  lnav
 ]
