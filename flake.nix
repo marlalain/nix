@@ -25,13 +25,9 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    secrets = {
-      url = "git+ssh://git@github.com/marlalain/nix-secrets.git";
-      flake = false;
-    };
   };
   outputs = { self, darwin, nix-homebrew, homebrew-bundle, homebrew-core
-    , homebrew-cask, home-manager, nixpkgs, disko, agenix, secrets }@inputs:
+    , homebrew-cask, home-manager, nixpkgs, disko, agenix }@inputs:
     let
       user = "marla";
       linuxSystems = [ "x86_64-linux" "aarch64-linux" ];
