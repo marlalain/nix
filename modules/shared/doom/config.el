@@ -96,3 +96,5 @@
   (map! :leader
 	:desc "Elcord (DRP)"
 	:n "t e" #'elcord-mode))
+
+(setq avy-all-windows t)
