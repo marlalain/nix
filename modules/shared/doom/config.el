@@ -91,9 +91,6 @@
     (run-with-idle-timer 1 nil #'elcord-mode)
     (run-with-idle-timer 2 nil #'org-mode)))
 
-;; (async-start (lambda () (elcord-mode)))
-;; (async-start (lambda () (global-org-modern-mode)))
-
 (after! elcord-mode
   (setq elcord-editor-icon "doom_cute_icon")
   (map! :leader
