@@ -78,18 +78,13 @@ let user = "marla"; in
       dock = {
         autohide = false;
         show-recents = false;
-        launchanim = true;
+        launchanim = false;
         orientation = "bottom";
         tilesize = 48;
       };
 
       finder = {
         _FXShowPosixPathInTitle = false;
-      };
-
-      trackpad = {
-        Clicking = true;
-        TrackpadThreeFingerDrag = true;
       };
     };
   };
