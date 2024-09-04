@@ -2,7 +2,7 @@
 (setq doom-user-dir "~/.config/nix/modules/shared/doom/"
       org-directory "~/notes/org/")
 
-(setq display-line-numbers 'relative
+(setq display-line-numbers "relative"
       doom-modeline-hud t)
 
 (setq user-full-name "Marla Albuquerque"

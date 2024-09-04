@@ -6,3 +6,5 @@
  'dired-mode-hook
  (lambda ()
    (map! "RET" #'dired-goto-file)))
+
+(map! :n "C-M-s-t" #'org-agenda)
