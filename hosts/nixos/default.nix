@@ -40,7 +40,7 @@ in {
   networking = {
     hostName = "s11c-keyboard"; # Define your hostname.
     useDHCP = false;
-    interfaces."%INTERFACE%".useDHCP = true;
+    interfaces."%INTERFACE%".useDHCP = true; # TODO remove eventually
   };
 
   # Turn on flag for proprietary software
@@ -214,26 +214,19 @@ in {
   # services.printing.drivers = [ pkgs.brlaser ]; # Brother printer driver
 
   # Enable sound
-  # sound.enable = true;
-  # hardware.pulseaudio.enable = true;
+  sound.enable = true;
+  hardware.pulseaudio.enable = true;
 
   # Video support
   hardware = {
     opengl.enable = true;
     # nvidia.modesetting.enable = true;
-
-    # Enable Xbox support
-    # xone.enable = true;
-
-    # Crypto wallet support
-    # ledger.enable = true;
   };
 
   # Add docker daemon
   virtualisation.docker.enable = true;
   virtualisation.docker.logDriver = "json-file";
 
-  # It's me, it's you, it's everyone
   users.users = {
     ${user} = {
       isNormalUser = true;

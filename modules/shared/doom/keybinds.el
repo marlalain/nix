@@ -10,3 +10,5 @@
 (map! :n "C-M-s-t" #'org-agenda)
 
 (map! :n "s-g" #'avy-goto-char-timer)
+
+(map! :i "RET" #'+default/newline)
