@@ -3,6 +3,9 @@
 (setq doom-user-dir "~/.config/nix/modules/shared/doom/"
       org-directory "~/notes/org/")
 
+(add-to-list 'default-frame-alist '(undecorated . t))
+(setq ns-auto-titlebar-mode t)
+
 ;; This file controls what Doom modules are enabled and what order they load
 ;; in. Remember to run 'doom sync' after modifying it!
 
