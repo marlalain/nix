@@ -1,14 +1,14 @@
 ;;; shared/doom/keybinds.el -*- lexical-binding: t; -*-
 
+(map! :i "RET" #'+default/newline)
 (map! :n "\/" #'+default/search-buffer)
 
-(add-hook!
- 'dired-mode-hook
- (lambda ()
-   (map! "RET" #'dired-goto-file)))
+;; dired
+(map! :map dired-mode-map "RET" #'dired-goto-file)
 
-(map! :n "C-M-s-t" #'org-agenda)
+;; org
+(map! :n "C-M-s-t" #'org-agenda) ;; not that useful
 
+;; avy
 (map! :n "s-g" #'avy-goto-char-timer)
 
-(map! :i "RET" #'+default/newline)
