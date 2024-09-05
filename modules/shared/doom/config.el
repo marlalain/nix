@@ -2,8 +2,16 @@
 (setq doom-user-dir "~/.config/nix/modules/shared/doom/"
       org-directory "~/notes/org/")
 
-(setq display-line-numbers "relative"
+(setq display-line-numbers 'relative
       doom-modeline-hud t)
+
+(setq doom-themes-enable-italic nil) ;; it's code not a poem
+
+;; sane line highlights
+(custom-set-faces
+ '(hl-line ((t (:underline nil :bold t))))
+ '(line-number ((t (:background nil :underline nil))))
+ '(line-number-current-line ((t (:background nil :underline nil :bold t)))))
 
 (setq user-full-name "Marla Albuquerque"
       user-mail-address "marla@albuque.com")
@@ -23,7 +31,7 @@
       doom-variable-pitch-font (font-spec :family "JetBrains Mono" :size 18)
       doom-big-font (font-spec :family "JetBrains Mono" :size 18)
       doom-localleader-key ","
-      doom-theme 'doom-sourcerer)
+      doom-theme 'doom-meltbus)
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
@@ -56,6 +64,8 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
+
+(add-load-path! ".")
 
 (after! doom-modeline
   (setq doom-modeline-icon nil)) ;; disables modeline icons
