@@ -4,7 +4,8 @@
 	   '(setq org-roam-dailies-directory "~/notes/org/roam/dailies/"
 		  org-roam-directory "~/notes/org/roam/"))
 
-(add-hook! 'org-agenda-mode-hook '(setq org-agenda-files (list "~/notes/org")))
+(add-hook! 'org-agenda-mode-hook
+           '(setq org-agenda-files (list "~/notes/org")))
 
 (remove-hook! 'org-mode-hook 'org-superstar-mode)
 (add-hook! 'org-mode-hook
@@ -12,9 +13,8 @@
 	   'visual-line-mode
 	   'variable-pitch-mode
 	   'org-indent-mode
-	   'org-modern-mode
-	   'org-modern-agenda
 	   '+org-pretty-mode
+	   'global-org-modern-mode
 	   '(setq
 	     org-log-into-drawer t
 	     org-log-done-with-time t
@@ -24,13 +24,13 @@
 	     org-log-redeadline 'time
 	     org-log-reschedule 'time
 	     org-log-setup 'time
-	     org-insert-heading-respect-content nil
+	     org-insert-heading-respect-content t
 	     org-startup-align-all-tables t
-	     org-auto-align-tags nil
-	     org-tags-column 0
+	     org-auto-align-tags t
+	     org-tags-column -80
 	     org-fold-catch-invisible-edits 'show-and-error
 	     org-hide-emphasis-markers t
-	     org-pretty-entities t
+	     org-pretty-entities nil
 	     org-startup-folded 'fold
 	     org-tag-alist '(;; places
 			     ("@home" . ?h)
@@ -48,14 +48,17 @@
 			     ("#work" . ?w)
 			     ("#programming" . ?p)
 			     ("#music" . ?m)
-			     ("#photography" . ?g))))
+			     ("#photography" . ?g)))
 
-(add-hook! org-agenda-mode-hook :append
+           ;; may be too early here
 	   '(setq org-agenda-custom-commands
 		  '(("d" "daily" ((agenda "" ((org-agenda-span 'day)
+                                              (org-agenda-day-view)
+                                              (org-agenda-start-day "today")
 					      (org-deadline-warning-days 2)))))
 		    ("u" "untagged tasks" tags-todo "-{.*=}" ((org-agenda-overriding-header "Untagged")))
-		    ("k" "before leaving @home" tags-todo "+@out" ((org-agenda-overriding-header "checks for before leaving the house"))))))
+		    ("k" "before leaving @home" tags-todo "+@out" ((org-agenda-overriding-header "checks for before leaving the house")))))
+           )
 
 ;; ledger mode + (org-mode + org-bable)
 (after! ledger :append
@@ -75,9 +78,12 @@
 	org-modern-list nil
 	org-modern-star nil
 	org-modern-fold-stars nil
+        org-modern-checkbox nil
+        org-modern-priority nil
 	org-modern-replace-stars nil)
   (custom-set-faces
    '(org-modern-label ((t (
 			   :height 1
 			   :weight bold
+                           :bold t
 			   :box (:line-width (0 . 0))))))))
