@@ -11,5 +11,4 @@
 
 (map! :n "s-g" #'avy-goto-char-timer)
 
-
 (map! :i "RET" #'+default/newline)
