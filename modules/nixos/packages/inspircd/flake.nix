@@ -41,7 +41,7 @@
               meta = with lib; {
                 description = "A modular, libweight IRC Daemon";
                 homepage = "https://inspircd.org/";
-                license = licenses.gnl2Plus;
+                license = licenses.gpl2Plus;
                 maintainers = with maintainers; [ marlalain ];
               };
             };
