@@ -53,3 +53,5 @@
 (package! elcord :recipe (:host github :repo "Mstrodl/elcord"))
 (package! org-modern)
 (package! async)
+(package! highlight-parentheses)
+(package! wakatime-mode)

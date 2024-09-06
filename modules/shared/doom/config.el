@@ -1,5 +1,7 @@
 ;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
+(load! "secrets")
+
 ;; sane line highlights
 (custom-set-faces
  '(hl-line ((t (:underline nil :bold t))))
@@ -21,8 +23,9 @@
 ;;
 ;; See 'C-h v doom-font' for documentation and more examples of what they accept.
 ;; TODO: Add Inconsolata
-(setq doom-font (font-spec :family "JetBrains Mono" :size 16 :weight 'semi-light)
-      doom-variable-pitch-font (font-spec :family "JetBrains Mono" :size 18)
+(setq doom-font (font-spec :family "Departure Mono" :size 16 :weight 'semi-light)
+      doom-symbol (font-spec :family "Departure Mono" :size 16 :weight 'semi-light)
+      doom-variable-pitch-font (font-spec :family "JetBrains Mono" :size 16)
       doom-big-font (font-spec :family "JetBrains Mono" :size 18)
       doom-localleader-key "," ;; instead of `SPC m`
       doom-theme 'doom-meltbus ;; or doom-opera wombat
@@ -64,9 +67,19 @@
       :desc "Elcord (DRP)"
       :n "t e" #'elcord-mode)
 
-;;; after everything else, load a few heavy modes
-(add-hook! 'doom-after-init-hook :append
-  (async-start '(elcord-mode))
-  (async-start '(org-mode))
-  (async-start '(org-agenda-mode))
-  (async-start '(org-capture-mode)))
+;; ui stuff (move to ./ui.el maybe?)
+(setq show-paren-delay 0
+      show-paren-style 'parenthesis)
+(custom-set-faces
+ '(show-paren-match ((t (:background "cyan" :foreground "black" :weight bold))))
+ '(show-paren-mismatch ((t (:background "red" :foreground "white" :weight bold))))
+ )
+
+;; wakatime
+(use-package! wakatime-mode
+  :config
+  (setq wakatime-api-key (my/read-secret "wakatime"))
+  (global-wakatime-mode))
+
+(after! 'org-mode
+  (load! "org"))
