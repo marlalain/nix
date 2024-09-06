@@ -10,7 +10,7 @@
         lib = pkgs.lib;
         in
           {
-            packages.${system}.inspircd = pkgs.stenv.mkDerivation rec {
+            packages.${system}.inspircd = pkgs.stdenv.mkDerivation rec {
               pname = "inspircd";
               version = "4.2.0";
 
