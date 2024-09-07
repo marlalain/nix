@@ -55,3 +55,4 @@
 (package! async)
 (package! highlight-parentheses)
 (package! wakatime-mode)
+(package! org-super-agenda)

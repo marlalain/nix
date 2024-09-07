@@ -1,7 +1,8 @@
 ;;; init.el -*- lexical-binding: t; -*-
 
 (setq doom-user-dir "~/.config/nix/modules/shared/doom/"
-      org-directory "~/notes/org/")
+      org-directory "~/notes/org/"
+      org-agenda-files (directory-files-recursively "~/notes/org" "org$"))
 
 (add-to-list 'default-frame-alist '(undecorated . t))
 (setq ns-auto-titlebar-mode t)
@@ -157,7 +158,7 @@
        ;;nim               ; python + lisp at the speed of c
        (nix +lsp +tree-sitter)               ; I hereby declare "nix geht mehr!"
        ;;ocaml             ; an objective camel
-       (org +pretty +journal +hugo +roam2)               ; organize your plain life in plain text
+       (org +journal +hugo +roam2)               ; organize your plain life in plain text
        ;;php               ; perl's insecure younger brother
        plantuml          ; diagrams for confusing people more
        ;;purescript        ; javascript, but functional

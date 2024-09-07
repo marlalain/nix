@@ -1,5 +1,6 @@
 ;;; $DOOMDIR/org.el -*- lexical-binding: t; -*-
 
+;; FIXME
 (setq org-log-into-drawer t
       org-log-done-with-time t
       org-log-done 'time
@@ -11,34 +12,35 @@
       org-insert-heading-respect-content t
       org-startup-align-all-tables t
       org-auto-align-tags t
-      org-tags-column -140
+      org-tags-column -120
       org-fold-catch-invisible-edits 'show-and-error
       org-hide-emphasis-markers t
       org-pretty-entities nil
-      org-startup-folded 'fold
+      org-startup-folded 'content
       org-fontify-whole-heading-line nil
       org-hide-leading-stars t
       org-level-color-stars-only nil
       org-id-link-to-org-use-id t
-      org-ellipsis "..."
+      org-ellipsis " > "
+      org-return-follows-link t
 
       org-priority-faces '((65 . "firebrick")
                            (66 . "gold")
                            (67 . "green yellow"))
 
-      org-todo-keywords '((sequence "IDEA(i)" "TODO(t)" "PAUSED(p)" )
-                          (sequence "|" "CANCELLED(c)" "DONE(d)" "SKIPPED(s)")
-                          (type "WORK(w)"))
+      org-todo-keywords '((sequence "TODO(t!)" "PAUSED(p!)" "|" )
+                          (sequence "|" "NOPE(n!)" "DONE(d!)" "SKIPPED(s!)")
+                          (sequence "[ ](c!)" "[/](/!)" "[X](f!)")
+                          (type "IDEA(I)" "GOAL(G)" "PROJECT(P)" "MILESTONE(M)"))
       org-todo-keyword-faces '(
                                ("IDEA" . "gold")
                                ("TODO" . "dark orange")
                                ("PAUSED" . "royal blue")
                                ("DONE" . "green yellow")
                                ("SKIPPED" . "firebrick")
-                               ("CANCELLED" . "firebrick")
+                               ("NOPE" . "firebrick")
                                )
 
-      ;; FIXME not loading during start phase
       org-tag-alist '(;; places
                       ("@body" . ?b) ;; mostly assumed: @home
 		      ("@home" . ?h) ("@out" . ?o) ;; OR
@@ -69,37 +71,20 @@
                  :inverse-video nil ;; t
                  :box nil
                  ))))
+
+ '(org-tag ((t (
+                :width condensed
+                :weight bold
+                :foreground "white"
+                ))))
+ '(org-todo ((t (:foreground "dark orange"))))
+ '(org-done ((t (:foreground "green yellow"))))
  )
 
 (add-hook! 'org-roam-mode-hook :append
 	   '(setq org-roam-dailies-directory "~/notes/org/roam/dailies/"
 		  org-roam-directory "~/notes/org/roam/"))
 
-(add-hook! 'org-agenda-mode-hook :append
-           '(setq org-agenda-files (list "~/notes/org")))
-
-;; pretty org-mode overrides
-(add-hook! 'org-agenda-mode-hook :append
-	   '(org-agenda-block-separator ?-)
-	   '(setq org-agenda-custom-commands ;; FIXME not loading with emacs
-		  '(("d" "daily"
-                     ((agenda "" ((org-agenda-span 'day)
-                                  (org-agenda-day-view)
-                                  (org-agenda-start-day "today")
-				  (org-deadline-warning-days 2)))))
-		    ("u" "untagged tasks" tags-todo "-{.*=}"
-                     ((org-agenda-overriding-header "Untagged")))
-		    ("k" "before leaving @home" tags-todo "+@out"
-                     ((org-agenda-overriding-header "checks for before leaving the house")))
-                    ("w" "work related"
-                     ((tags-todo "+#work"
-                                 ((org-agenda-overriding-header "today")
-                                  (org-agenda-skip-function
-                                   '(or
-                                     (org-agenda-skip-entry-if 'scheduled 'not-today)
-                                     (org-entry-blocked-p))))))
-                     )))
-           )
 
 (after! ledger :append
   (map! :map ledger-mode-map
@@ -130,7 +115,7 @@
   )
 
 (visual-line-mode)
-;; '+org-pretty-mode
+(setq org-superstar-mode nil)
 
 ;;; ---> FORMAT
 (defun +org-align-tags-onsave ()

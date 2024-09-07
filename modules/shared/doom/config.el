@@ -8,23 +8,13 @@
  '(line-number ((t (:background "unspecified" :underline nil))))
  '(line-number-current-line ((t (:background "unspecified" :underline nil :bold t)))))
 
-(setq-default tab-width 2)
-(setq-default indent-tabs-mode nil)
-(setq-default avy-all-windows t)
+(setq-default tab-width 2
+              indent-tabs-mode nil
+              avy-all-windows t)
 
-;; Doom exposes five (optional) variables for controlling fonts in Doom:
-;;
-;; - `doom-font' -- the primary font to use
-;; - `doom-variable-pitch-font' -- a non-monospace font (where applicable)
-;; - `doom-big-font' -- used for `doom-big-font-mode'; use this for
-;;   presentations or streaming.
-;; - `doom-symbol-font' -- for symbols
-;; - `doom-serif-font' -- for the `fixed-pitch-serif' face
-;;
-;; See 'C-h v doom-font' for documentation and more examples of what they accept.
 ;; TODO: Add Inconsolata
-(setq doom-font (font-spec :family "Departure Mono" :size 16 :weight 'semi-light)
-      doom-symbol (font-spec :family "Departure Mono" :size 16 :weight 'semi-light)
+(setq doom-font (font-spec :family "Departure Mono" :size 18 :weight 'semi-light)
+      doom-symbol (font-spec :family "Departure Mono" :size 18 :weight 'semi-light)
       doom-variable-pitch-font (font-spec :family "JetBrains Mono" :size 16)
       doom-big-font (font-spec :family "JetBrains Mono" :size 18)
       doom-localleader-key "," ;; instead of `SPC m`
@@ -81,5 +71,4 @@
   (setq wakatime-api-key (my/read-secret "wakatime"))
   (global-wakatime-mode))
 
-(after! 'org-mode
-  (load! "org"))
+(load! "org-agenda")
