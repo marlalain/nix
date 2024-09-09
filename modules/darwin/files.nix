@@ -14,7 +14,7 @@ let
       #
       # Required parameters:
       # @raycast.schemaVersion 1
-      # @raycast.title Run Emacs
+      # @raycast.title Run Doom Emacs
       # @raycast.mode silent
       #
       # Optional parameters:
@@ -24,10 +24,10 @@ let
 
       if [[ $1 = "-t" ]]; then
         # Terminal mode
-        ${pkgs.emacs}/bin/emacsclient -t $@
+        /Applications/MacPorts/EmacsMac.app/Contents/MacOS/bin/emacsclient -t $@
       else
         # GUI mode
-        ${pkgs.emacs}/bin/emacsclient -c -n $@
+        /Applications/MacPorts/EmacsMac.app/Contents/MacOS/bin/emacsclient -c -n $@
       fi
     '';
   };

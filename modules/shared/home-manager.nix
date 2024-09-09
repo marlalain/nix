@@ -72,7 +72,7 @@ in {
       fi
 
       # Define variables for directories
-      export PATH=$HOME/.local/share/bin:${pkgs.emacs}/bin:$HOME/.config/emacs/bin:$PATH
+      export PATH="/opt/local/bin:$HOME/.local/share/bin:${pkgs.emacs}/bin:$HOME/.config/emacs/bin:$PATH"
       export DOOMDIR="/Users/marla/.config/nix/modules/shared/doom"
 
       # Remove history data we don't want to see
@@ -137,7 +137,7 @@ in {
 
       window = {
         dynamic_padding = false;
-        # decorations = "None";
+        decorations = "Buttonless";
         opacity = 0.8;
         blur = true;
         padding = {

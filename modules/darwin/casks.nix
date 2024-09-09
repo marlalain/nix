@@ -13,7 +13,7 @@ _:
   # must haves
   "raycast"
   "arc"
-  "1password"
+  # "1password" TODO flipflop this
 
   # dev/work related
   "slack"
