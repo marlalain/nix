@@ -12,7 +12,7 @@
       org-insert-heading-respect-content t
       org-startup-align-all-tables t
       org-auto-align-tags t
-      org-tags-column -120
+      org-tags-column -100
       org-fold-catch-invisible-edits 'show-and-error
       org-hide-emphasis-markers t
       org-pretty-entities nil
@@ -29,11 +29,14 @@
                            (67 . "green yellow"))
 
       org-todo-keywords '((sequence "TODO(t!)" "PAUSED(p!)" "|" )
-                          (sequence "|" "NOPE(n!)" "DONE(d!)" "SKIPPED(s!)")
+                          (sequence "|" "DONE(d!)"  "NOPE(n!)" "SKIPPED(s!)")
                           (sequence "[ ](c!)" "[/](/!)" "[X](f!)")
                           (type "IDEA(I)" "GOAL(G)" "PROJECT(P)" "MILESTONE(M)"))
       org-todo-keyword-faces '(
                                ("IDEA" . "gold")
+                               ("GOAL" . "gold")
+                               ("PROJECT" . "gold")
+                               ("MILESTONE" . "gold")
                                ("TODO" . "dark orange")
                                ("PAUSED" . "royal blue")
                                ("DONE" . "green yellow")
@@ -51,6 +54,10 @@
 		      ("@keyboard" . ?k)
 		      ("@iphone" . ?i)
 		      ("@android" . ?a)
+
+                      ;; categories/hobbies
+                      ("#config" . ?C) ;; what relates to my config
+                      ("#work" . ?w)
                       ))
 
 

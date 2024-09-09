@@ -2,11 +2,70 @@
 
 (load! "secrets")
 
+(add-hook! '+doom-dashboard-functions :append
+  (insert "\n" (+doom-dashboard--center +doom-dashboard--width "how you do anything is how you do everything")))
+
+(defun my-weebery-is-always-greater ()
+  (let* ((banner '(
+                   "                                     +-------+                                  "
+                   "                                     |'STUFF'|                                  "
+                   "                                     +---+---+                                  "
+                   "                                         |                                      "
+                   "                                     +---v---+                                  "
+                   "                                     | INBOX |                                  "
+                   "                                     +---+---+                                  "
+                   "                                         |              Eliminate  +-----------+"
+                   "                                         |            +----------->|  Trash    |"
+                   "                                  +------v------+     |            +-----------+"
+                   "                                  | What is it? |     |                         "
+                   "                                  +------+------+     |            +-----------+"
+                   "                                         |            | Incubate   |  Someday/ |"
+                   "                                         |            +----------->|   Maybe   |"
+                   "+----------+  YES (multi-step)   +------v------+  NO |            +-----------+ "
+                   "| Projects |<--------------------|    Is it    |-----+                          "
+                   "+------^---+                     | Actionable? |     | File       +-----------+ "
+                   "   |    |   +----------------+    +------+------+     +----------->| Reference |"
+                   "   |    |        Review for  |           |                         +-----------+"
+                   "+-v----+---+     Actions    |           |                                       "
+                   "| Planning |                +---------->| YES                                   "
+                   "+----------+                            |                                       "
+                   "                                  +------v------+     Less than                 "
+                   "                        Delegate  | What's the  |     2 minutes    +-----------+"
+                   "                      +-----------+    NEXT     +----------------->|   DO IT   |"
+                   "                      |           |   Action?   |                  +-----------+"
+                   "                      |           +------+------+                               "
+                   "                      |                  |                                      "
+                   "                      |                  | FOR ME:                              "
+                   "                      |                  |         Specific Date or Time        "
+                   "                      |                  +-------------------------------+      "
+                   "                      |              ASAP|                               |      "
+                   "                +-----v-----+      +-----v-----+                   +-----v-----+"
+                   "                |           |      |           |                   |           |"
+                   "                |           |      |           |                   |           |"
+                   "                |           |      |           |                   |           |"
+                   "                |           |      |           |                   |           |"
+                   "                |           |      |           |                   |           |"
+                   "                +-----------+      +-----------+                   +-----------+"
+                   "                 Waiting For        Next Actions                      Calendar  "
+                   ))
+         (longest-line (apply #'max (mapcar #'length banner))))
+    (put-text-property
+     (point)
+     (dolist (line banner (point))
+       (insert (+doom-dashboard--center
+                +doom-dashboard--width
+                (concat line (make-string (max 0 (- longest-line (length line))) 32)))
+               "\n"))
+     'face 'doom-dashboard-banner)))
+
+(setq +doom-dashboard-ascii-banner-fn #'my-weebery-is-always-greater)
+
 ;; sane line highlights
 (custom-set-faces
  '(hl-line ((t (:underline nil :bold t))))
  '(line-number ((t (:background "unspecified" :underline nil))))
- '(line-number-current-line ((t (:background "unspecified" :underline nil :bold t)))))
+ '(line-number-current-line ((t (:background "unspecified" :underline nil :bold t))))
+ )
 
 (setq-default tab-width 2
               indent-tabs-mode nil
@@ -66,9 +125,24 @@
  )
 
 ;; wakatime
-(use-package! wakatime-mode
-  :config
-  (setq wakatime-api-key (my/read-secret "wakatime"))
-  (global-wakatime-mode))
+;;(use-package! wakatime-mode
+;;  :config
+;;  (setq wakatime-api-key (my/read-secret "wakatime"))
+;;  (global-wakatime-mode))
 
 (load! "org-agenda")
+(load! "keybinds")
+
+(use-package! org
+  :config
+  (load! "org"))
+
+(use-package! org-gtd
+  :after org
+  :demand t
+  :custom
+  (org-gtd-directory "~/notes/org/gtd")
+  (org-edna-use-inheritance t)
+  :config
+  (setq org-gtd-areas-of-focus '("work" "homelab" "coding" "music" "photography" "relations" "health" "paperwork"))
+  (org-edna-mode))

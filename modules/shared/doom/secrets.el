@@ -1,6 +1,6 @@
 ;;; shared/doom/secrets.el -*- lexical-binding: t; -*-
 
-(defvar my/secrets-dir "~/src/marlalain/nix-secrets/"
+(defvar my/secrets-dir "~/src/github.com/marlalain/nix-secrets/"
   "where my secrets from `marlalain/nix` are stored")
 
 (defun my/read-secret (filename)

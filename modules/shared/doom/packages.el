@@ -49,10 +49,17 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;; (unpin! t)
 
-(package! nushell-mode :recipe (:host github :repo "mrkkrp/nushell-mode"))
 (package! elcord :recipe (:host github :repo "Mstrodl/elcord"))
-(package! org-modern)
 (package! async)
+
+;; coding
 (package! highlight-parentheses)
 (package! wakatime-mode)
+
+;; langs
+(package! nushell-mode :recipe (:host github :repo "mrkkrp/nushell-mode"))
+
+;; org
+(package! org-modern)
 (package! org-super-agenda)
+(package! org-gtd)
