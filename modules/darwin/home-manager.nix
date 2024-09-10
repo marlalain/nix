@@ -2,11 +2,6 @@
 
 let
   user = "marla";
-  # Define the content of your file as a derivation
-  myEmacsLauncher = pkgs.writeScript "emacs-launcher.command" ''
-    #!/bin/sh
-    /Applications/MacPorts/EmacsMac.app/Contents/MacOS/bin/emacsclient -c -n &
-  '';
   sharedFiles = import ../shared/files.nix { inherit config pkgs; };
   additionalFiles = import ./files.nix { inherit user config pkgs; };
 in {
@@ -21,7 +16,8 @@ in {
 
   homebrew = {
     enable = true;
-    casks = pkgs.callPackage ./casks.nix { };
+    casks = pkgs.callPackage ./casks.nix {
+    };
     # onActivation.cleanup = "uninstall";
 
     # These app IDs are from using the mas CLI app
@@ -48,20 +44,19 @@ in {
         file = lib.mkMerge [
           sharedFiles
           additionalFiles
-          { "emacs-launcher.command".source = myEmacsLauncher; }
         ];
 
         stateVersion = "23.11";
       };
       programs = { }
-        // import ../shared/home-manager.nix { inherit config pkgs lib; };
+                 // import ../shared/home-manager.nix { inherit config pkgs lib; };
 
       # Marked broken Oct 20, 2022 check later to remove this
       # https://github.com/nix-community/home-manager/issues/3344
       manual.manpages.enable = false;
     };
   };
- 
+
   # Fully declarative dock using the latest from Nix Store
   local = {
     dock = {
@@ -76,36 +71,39 @@ in {
   services.yabai = {
     enable = true;
     config = {
-focus_follows_mouse = "autoraise";
-window_opacity = "off";
-active_window_opacity = 0.9;
-normal_window_opacity = 0.8;
-split_ratio = 0.66;
-split_type = "auto";
-layout = "bsp";
-window_shadow = "on";
-external_bar = "off:0:0";
-menubar_opacity = 0.0;
-window_origin_display = "focused";
-window_zoom_persist = "focused";
-window_placement = "second_child";
-window_animation_duration = 0.0;
-window_opacity_duration = 0.0;
-window_gap = 10;
-top_padding = 10;
-bottom_padding = 10;
-left_padding = 10;
-right_padding = 10;
-mouse_action2 = "resize";
- };
+      focus_follows_mouse = "autoraise";
+      window_opacity = "off";
+      active_window_opacity = 0.9;
+      normal_window_opacity = 0.8;
+      split_ratio = 0.66;
+      split_type = "auto";
+      layout = "bsp";
+      window_shadow = "on";
+      external_bar = "on:40:0";
+      menubar_opacity = 0.5;
+      window_origin_display = "focused";
+      window_zoom_persist = "focused";
+      window_placement = "second_child";
+      window_animation_duration = 0.0;
+      window_opacity_duration = 0.0;
+      window_gap = 10;
+      top_padding = 10;
+      bottom_padding = 10;
+      left_padding = 10;
+      right_padding = 10;
+      mouse_action2 = "resize";
+    };
 
-};
- 
+  };
+
   services.skhd = {
-	enable = true;
-	skhdConfig = ''
+    enable = true;
+    skhdConfig = ''
           hyper - h : yabai -m window --focus west
-'';
-};
+          hyper - j : yabai -m window --focus south
+          hyper - k : yabai -m window --focus north
+          hyper - l : yabai -m window --focus east
+    '';
+  };
 }
 

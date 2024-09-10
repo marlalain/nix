@@ -6,6 +6,7 @@
         org-agenda-show-future-repeats 'next
         org-agenda-skip-scheduled-if-done t
         org-agenda-skip-deadline-if-done t
+        org-agenda-skip-timestamp-if-done t
         org-agenda-start-with-log-mode t
         org-agenda-block-separator " "
         org-agenda-compact-blocks t

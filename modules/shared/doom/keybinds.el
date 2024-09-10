@@ -20,9 +20,13 @@
                :desc "process inbox" "p" #'org-gtd-process-inbox
                :desc "show all next" "n" #'org-gtd-show-all-next
                :desc "stuck projects" "s" #'org-gtd-review-area-of-focus
-               :desc "area of focus" "A" #'org-gtd-area-of-focus-set-on-item-at-point
-               :desc "area of focus (agenda)" "A" #'org-gtd-area-of-focus-set-on-agenda-item
+               :desc "area of focus" "a" #'org-gtd-area-of-focus-set-on-item-at-point
+               :desc "organize item" "o" #'(lambda () (interactive) '(org-gtd-organize))
+               :desc "clarify item" "f" #'org-gtd-clarify-item
                ))
+(map! :localleader (:prefix ("d" . "org-gtd")
+                    :desc "area of focus" "a" #'org-gtd-area-of-focus-set-on-item-at-point
+                    :desc "clarify item" "f" #'org-gtd-clarify-item))
 
 ;; avy
 (map! :n "s-g" #'avy-goto-char-timer)

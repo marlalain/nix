@@ -1,5 +1,7 @@
 ;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
+(menu-bar-mode 1)
+
 (load! "secrets")
 
 (add-hook! '+doom-dashboard-functions :append
@@ -101,11 +103,6 @@
 				      (internal-border-width . 0)
 				      (alpha . 95)))
   (set-frame-parameter nil 'alpha-background 95))
-
-(add-to-list 'initial-frame-alist '(width . 150))
-(add-to-list 'initial-frame-alist '(height . 50))
-(add-to-list 'default-frame-alist '(width . 150))
-(add-to-list 'default-frame-alist '(height . 50))
 
 ;; async + idle + parallel package loading
 (use-package! async
