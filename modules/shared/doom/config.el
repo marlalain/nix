@@ -1,10 +1,7 @@
 ;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
 (menu-bar-mode 1) ;; FIXME doesn't let yabai tile emacs still
-
-(setq doom-modeline-time-live-icon t)
-(setq doom-modeline-time-analogue-clock t)
-
+(display-time-mode 1)
 
 (add-hook! '+doom-dashboard-functions :append
   (insert "\n" (+doom-dashboard--center +doom-dashboard--width "how you do anything is how you do everything")))
@@ -77,21 +74,33 @@
               indent-tabs-mode nil
               avy-all-windows t)
 
-;; TODO: Add Inconsolata
 (setq doom-font (font-spec :family "Departure Mono" :size 18 :weight 'semi-light)
-      doom-symbol (font-spec :family "Departure Mono" :size 18 :weight 'semi-light)
       doom-variable-pitch-font (font-spec :family "Departure Mono" :size 16 :weight 'semi-light)
       doom-big-font (font-spec :family "JetBrains Mono" :size 18)
       doom-localleader-key "," ;; instead of `SPC m`
       doom-theme 'doom-meltbus ;; or doom-opera wombat
-      doom-themes-enable-italic nil
+      doom-themes-enable-bold t
       doom-themes-enable-italic nil ;; it's code not prose
-      doom-modeline-hud t
+      doom-modeline-hud nil
+      doom-modeline-time-analogue-clock nil
+      doom-modeline-workspace-name nil
+      doom-modeline-current-window t
+      doom-modeline-position-line-format nil
+      doom-modeline-position-column-format nil
+      doom-modeline-position-column-line-format nil
+      doom-modeline-total-line-number nil
+      doom-modeline-buffer-encoding nil
       doom-user-dir  "~/.config/nix/modules/shared/doom/"
       org-directory "~/notes/org/"
-      indent-line-function 'insert-tab
       user-full-name "Marla Albuquerque"
-      user-mail-address "marla@albuque.com")
+      user-mail-address "marla@albuque.com"
+      tab-width 2
+      indent-tabs-mode nil
+      indent-line-function 'insert-tab
+      )
+
+(add-hook! 'doom-init-ui-hook
+  (setq doom-symbol (font-spec :family "Departure Mono" :size 18))) ;; so it doesn't get overwritten
 
 (after! doom-modeline
   (setq doom-modeline-icon nil)) ;; disables modeline icons
