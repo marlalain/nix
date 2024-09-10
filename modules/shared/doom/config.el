@@ -1,15 +1,15 @@
 ;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
-(menu-bar-mode 1)
+(menu-bar-mode 1) ;; FIXME doesn't let yabai tile emacs still
 
 (setq doom-modeline-time-live-icon t)
 (setq doom-modeline-time-analogue-clock t)
 
-(load! "secrets")
 
 (add-hook! '+doom-dashboard-functions :append
   (insert "\n" (+doom-dashboard--center +doom-dashboard--width "how you do anything is how you do everything")))
 
+;; TODO extract
 (defun my-weebery-is-always-greater ()
   (let* ((banner '(
                    "                                     +-------+                                  "
@@ -65,6 +65,7 @@
 
 (setq +doom-dashboard-ascii-banner-fn #'my-weebery-is-always-greater)
 
+;; TODO extract
 ;; sane line highlights
 (custom-set-faces
  '(hl-line ((t (:underline nil :bold t))))
@@ -95,10 +96,12 @@
 (after! doom-modeline
   (setq doom-modeline-icon nil)) ;; disables modeline icons
 
+;; TODO extract
 ;; removes dashbord fluff
 (remove-hook '+doom-dashboard-functions 'doom-dashboard-widget-shortmenu)
 (remove-hook '+doom-dashboard-functions 'doom-dashboard-widget-footer)
 
+;; TODO extract
 ;; childframe
 (after! posframe
   (setq vertico-posframe-border-width 0
@@ -108,15 +111,18 @@
 				      (alpha . 95)))
   (set-frame-parameter nil 'alpha-background 95))
 
+;; TODO extract
 ;; async + idle + parallel package loading
 (use-package! async
   :config (async-bytecomp-package-mode 1))
 
+;; TODO extract
 (add-hook! 'elcord-mode-hook '(setq elcord-editor-icon "doom_cute_icon"))
 (map! :leader
       :desc "Elcord (DRP)"
       :n "t e" #'elcord-mode)
 
+;; TODO extract
 ;; ui stuff (move to ./ui.el maybe?)
 (setq show-paren-delay 0
       show-paren-style 'parenthesis)
@@ -125,19 +131,23 @@
  '(show-paren-mismatch ((t (:background "red" :foreground "white" :weight bold))))
  )
 
+;; FIXME ?
 ;; wakatime
 ;;(use-package! wakatime-mode
 ;;  :config
 ;;  (setq wakatime-api-key (my/read-secret "wakatime"))
 ;;  (global-wakatime-mode))
 
+(load! "secrets")
 (load! "org-agenda")
 (load! "keybinds")
 
+;; TODO extract
 (use-package! org
   :config
   (load! "org"))
 
+;; TODO extract
 (use-package! org-gtd
   :after org
   :demand t
@@ -148,6 +158,7 @@
   (setq org-gtd-areas-of-focus '("work" "homelab" "coding" "music" "photography" "relations" "health" "paperwork"))
   (org-edna-mode))
 
+;; TODO extract
 (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
 (use-package! nov
   :config

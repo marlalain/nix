@@ -6,7 +6,8 @@
 
 (add-to-list 'default-frame-alist '(undecorated . t))
 (setq ns-auto-titlebar-mode t)
-(menu-bar-mode t)
+
+(setq org-gtd-update-ack "2.1.0")
 
 ;; This file controls what Doom modules are enabled and what order they load
 ;; in. Remember to run 'doom sync' after modifying it!
@@ -68,7 +69,7 @@
        ;;god               ; run Emacs commands without modifier keys
        ;;lispy             ; vim for lisp, for people who don't like vim
        ;;multiple-cursors  ; editing in many places at once
-       objed             ; text object editing for the innocent
+       (objed +manual)             ; text object editing for the innocent
        ;;parinfer          ; turn lisp into python, sort of
        ;;rotate-text       ; cycle region at point between text candidates
        snippets          ; my elves. They type so I don't have to

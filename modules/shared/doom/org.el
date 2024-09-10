@@ -56,8 +56,8 @@
 		      ("@android" . ?a)
 
                       ;; categories/hobbies
-                      ("#config" . ?C) ;; what relates to my config
-                      ("#work" . ?w)
+                      ("@homelab" . ?l) ;; what relates to my config
+                      ("@work" . ?w)
                       ))
 
 
