@@ -18,6 +18,9 @@ with pkgs; [
   emacsPackages.vterm
   nil
 
+  # fonts
+  inconsolata
+
   # Encryption and security tools
   gnupg
 

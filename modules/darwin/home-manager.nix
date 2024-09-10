@@ -1,4 +1,4 @@
-{ config, pkgs, lib, home-manager, ... }:
+{ config, pkgs,  ... }:
 
 let
   user = "marla";
@@ -72,7 +72,7 @@ in {
     enable = true;
     config = {
       focus_follows_mouse = "autoraise";
-      window_opacity = "off";
+      window_opacity = "on";
       active_window_opacity = 0.9;
       normal_window_opacity = 0.8;
       split_ratio = 0.66;
@@ -103,6 +103,12 @@ in {
           hyper - j : yabai -m window --focus south
           hyper - k : yabai -m window --focus north
           hyper - l : yabai -m window --focus east
+
+          hyper - f : yabai -m window --toggle float
+          hyper - s : yabai -m window --toggle sticky
+
+          yabai -m rule --add app="^Simulator$" manage=off
+          yabai -m rule --add app="^Emacs" manage=off
     '';
   };
 }

@@ -63,3 +63,6 @@
 (package! org-modern)
 (package! org-super-agenda)
 (package! org-gtd)
+(package! org-wild-notifier)
+
+(package! nov)

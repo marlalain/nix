@@ -2,6 +2,9 @@
 
 (menu-bar-mode 1)
 
+(setq doom-modeline-time-live-icon t)
+(setq doom-modeline-time-analogue-clock t)
+
 (load! "secrets")
 
 (add-hook! '+doom-dashboard-functions :append
@@ -76,10 +79,11 @@
 ;; TODO: Add Inconsolata
 (setq doom-font (font-spec :family "Departure Mono" :size 18 :weight 'semi-light)
       doom-symbol (font-spec :family "Departure Mono" :size 18 :weight 'semi-light)
-      doom-variable-pitch-font (font-spec :family "JetBrains Mono" :size 16)
+      doom-variable-pitch-font (font-spec :family "Departure Mono" :size 16 :weight 'semi-light)
       doom-big-font (font-spec :family "JetBrains Mono" :size 18)
       doom-localleader-key "," ;; instead of `SPC m`
       doom-theme 'doom-meltbus ;; or doom-opera wombat
+      doom-themes-enable-italic nil
       doom-themes-enable-italic nil ;; it's code not prose
       doom-modeline-hud t
       doom-user-dir  "~/.config/nix/modules/shared/doom/"
@@ -143,3 +147,9 @@
   :config
   (setq org-gtd-areas-of-focus '("work" "homelab" "coding" "music" "photography" "relations" "health" "paperwork"))
   (org-edna-mode))
+
+(add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
+(use-package! nov
+  :config
+  '(visual-line-mode)
+  )
