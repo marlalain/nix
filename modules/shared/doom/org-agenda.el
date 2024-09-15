@@ -10,27 +10,37 @@
         org-agenda-start-with-log-mode t
         org-agenda-block-separator " "
         org-agenda-compact-blocks t
+        org-agenda-dim-blocked-tasks 'invisible
         ))
 
 (use-package! org-super-agenda
   :after org-agenda
   :config
   (setq org-agenda-custom-commands
-        '(
-          ("t" "today"
+        '(("M" "medication logs"
            ((agenda ""
-                    ((org-agenda-overriding-header "today")
-                     (org-agenda-span 'day)
-                     (setq org-super-agenda-groups
-                           '((:name "today"
-                              :time-grid t
-                              :date today
-                              :scheduled today
-                              :deadline today
-                              :order 1)))))))
-          ("u" "untagged"
-           ((tags-todo "ALLTAGS=\"\""
-                       ((setq org-super-agenda-groups
-                              '((:name "untagged TODO items")))))))
-          ))
-  (org-super-agenda-mode))
+                    ((org-super-agenda-groups '(
+                                                (:name "taken" :todo ( "TAKE" "NEXT" "TAKEN" "DONE")))))
+                    ((setq org-agenda-span 'day
+                           org-agenda-include-inactive-timestamps t
+                           org-agenda-log-mode-add-notes t)))))))
+
+
+  ;; (setq org-agenda-custom-commands
+  ;;       '(("M" "Medications Agenda with Logs"
+  ;;          ((agenda "" ((org-super-agenda-groups
+  ;;                        '((:name "Medications to Take"
+  ;;                           :todo ("TAKE" "NEXT")
+  ;;                           :order 1)
+  ;;                          (:name "Medications Taken"
+  ;;                           :todo ("TAKEN")
+  ;;                           :order 2)))))
+  ;;           (alltodo "" ((org-super-agenda-groups
+  ;;                         '((:auto-category t))))))
+  ;;          ((org-agenda-include-inactive-timestamps t)
+  ;;           (org-agenda-log-mode-items '(state note))
+  ;;           (org-agenda-log-mode-add-notes t)))))
+
+  (org-super-agenda-mode)
+
+  )

@@ -3,8 +3,8 @@
 (defun my/keybind-switch
     () (interactive)
     (defun my/objed-switch () (interactive)
-           (evil-mode -1)
-           (objed-mode 1)
+           (evil-mode 1)
+           (objed-mode -1)
            (objed-activate))
     (defun my/evil-switch () (interactive)
            (evil-mode 1)

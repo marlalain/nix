@@ -2,9 +2,9 @@
 
 (load! "functions")
 
-(map! "s-SPC" #'my/keybind-switch)
-(global-set-key (kbd "s-SPC") #'my/keybind-switch)
-(map! :n "RET" #'my/keybind-switch)
+;; (map! "s-SPC" #'my/keybind-switch)
+;; (global-set-key (kbd "s-SPC") #'my/keybind-switch)
+;; (map! :n "RET" #'my/keybind-switch)
 
 (map! :i "RET" #'+default/newline)
 (map! :n "\/" #'+default/search-buffer)
@@ -26,9 +26,9 @@
                ))
                                         ; clarify mappings
 (map! :map org-mode-map :localleader "d" nil) ;; overrides initial state
-(map! :map org-gtd-clarify-map :localleader "d" nil) ;; overrides initial state
-(map! :map org-mode-map
-      :after org-gtd-clarify-mode
+;; (map! :map org-gtd-clarify-map :localleader "d" nil)
+;; overrides initial state
+(map! :map org-gtd-clarify-map
       :localleader (:prefix ("d" . "org-gtd")
                     :desc "area of focus" "a" #'org-gtd-area-of-focus-set-on-item-at-point
                     :desc "clarify item" "f" #'org-gtd-clarify-item

@@ -1,6 +1,7 @@
 ;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
-(menu-bar-mode 1) ;; FIXME doesn't let yabai tile emacs still
+(evil-mode 1)
+(menu-bar-mode 0) ;; FIXME doesn't let yabai tile emacs still
 (display-time-mode 1)
 
 (add-hook! '+doom-dashboard-functions :append
@@ -62,6 +63,8 @@
 
 (setq +doom-dashboard-ascii-banner-fn #'my-weebery-is-always-greater)
 
+(setq doom-theme 'doom-one)
+
 ;; TODO extract
 ;; sane line highlights
 (custom-set-faces
@@ -74,9 +77,9 @@
               indent-tabs-mode nil
               avy-all-windows t)
 
-(setq doom-font (font-spec :family "Departure Mono" :size 18 :weight 'semi-light)
-      doom-variable-pitch-font (font-spec :family "Departure Mono" :size 16 :weight 'semi-light)
-      doom-big-font (font-spec :family "JetBrains Mono" :size 18)
+(setq doom-font (font-spec :family "Inconsolata" :size 22)
+      doom-variable-pitch-font (font-spec :family "Inconsolata" :size 22 :weight 'semi-light)
+      doom-big-font (font-spec :family "Inconsolata" :size 26)
       doom-localleader-key "," ;; instead of `SPC m`
       doom-theme 'doom-meltbus ;; or doom-opera wombat
       doom-themes-enable-bold t
@@ -90,7 +93,7 @@
       doom-modeline-position-column-line-format nil
       doom-modeline-total-line-number nil
       doom-modeline-buffer-encoding nil
-      doom-user-dir  "~/.config/nix/modules/shared/doom/"
+      doom-user-dir  "/home/marla/.config/doom/"
       org-directory "~/notes/org/"
       user-full-name "Marla Albuquerque"
       user-mail-address "marla@albuque.com"
@@ -100,7 +103,7 @@
       )
 
 (add-hook! 'doom-init-ui-hook
-  (setq doom-symbol (font-spec :family "Departure Mono" :size 18))) ;; so it doesn't get overwritten
+  (setq doom-symbol (font-spec :family "Inconsolata" :size 22))) ;; so it doesn't get overwritten
 
 (after! doom-modeline
   (setq doom-modeline-icon nil)) ;; disables modeline icons
@@ -164,6 +167,7 @@
   (org-gtd-directory "~/notes/org/gtd")
   (org-edna-use-inheritance t)
   :config
+  (load! "org-gtd")
   (setq org-gtd-areas-of-focus '("work" "homelab" "coding" "music" "photography" "relations" "health" "paperwork"))
   (org-edna-mode))
 
@@ -173,3 +177,39 @@
   :config
   '(visual-line-mode)
   )
+
+;; server stuff
+(use-package! server
+  :config
+
+  (setq server-name "tower")
+  (setq server-socket-dir "/home/marla/.config/emacs/server/")
+
+  (unless (server-running-p) (server-start))
+  )
+
+(doom/reload-theme)
+
+(use-package! tramp
+  :defer t
+  :config
+  (setq tramp-default-method "ssh"
+        tramp-persistency-file-name (expand-file-name "/home/marla/.config/emacs")
+        tramp-inline-compress-start-size 1000
+        tramp-auto-save-directory (expand-file-name "/home/marla/.config/emacs/tramp-autosave")
+        ))
+
+
+(use-package! org-depend
+  :after org
+  :config
+  (setq org-enforce-todo-dependencies t))
+
+(after! hl-todo
+  (setq hl-todo-keyword-faces '(
+                                '("BUG" error bold)
+                                '("FIXME" error bold)
+                                ;; ADD THE REST
+                                )))
+
+(load! "irc")

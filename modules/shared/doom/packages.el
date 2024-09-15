@@ -66,3 +66,5 @@
 (package! org-wild-notifier)
 
 (package! nov)
+(package! tramp)
+(package! hydra)

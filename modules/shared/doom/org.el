@@ -1,6 +1,6 @@
 ;;; $DOOMDIR/org.el -*- lexical-binding: t; -*-
 
-;; FIXME
+
 (setq org-log-into-drawer t
       org-log-done-with-time t
       org-log-done 'time
@@ -8,11 +8,11 @@
       org-log-repeat 'time
       org-log-redeadline 'time
       org-log-reschedule 'time
-      org-log-setup 'time
       org-insert-heading-respect-content t
+      org-use-property-inheritance t
       org-startup-align-all-tables t
       org-auto-align-tags t
-      org-tags-column -100
+      org-tags-column -150
       org-fold-catch-invisible-edits 'show-and-error
       org-hide-emphasis-markers t
       org-pretty-entities nil
@@ -23,26 +23,29 @@
       org-id-link-to-org-use-id t
       org-ellipsis " > "
       org-return-follows-link t
+      org-id-link-to-org-use-id t
+      org-id-locations-file "~/.config/emacs/.local/state/.org-id-locations"
+      org-fast-tag-selection-single-key t
 
       org-priority-faces '((65 . "firebrick")
                            (66 . "gold")
                            (67 . "green yellow"))
 
-      org-todo-keywords '((sequence "TODO(t!)" "PAUSED(p!)" "|" )
-                          (sequence "|" "DONE(d!)"  "NOPE(n!)" "SKIPPED(s!)")
-                          (sequence "[ ](c!)" "[/](/!)" "[X](f!)")
-                          (type "IDEA(I)" "GOAL(G)" "PROJECT(P)" "MILESTONE(M)"))
-      org-todo-keyword-faces '(
-                               ("IDEA" . "gold")
-                               ("GOAL" . "gold")
-                               ("PROJECT" . "gold")
-                               ("MILESTONE" . "gold")
-                               ("TODO" . "dark orange")
-                               ("PAUSED" . "royal blue")
-                               ("DONE" . "green yellow")
-                               ("SKIPPED" . "firebrick")
-                               ("NOPE" . "firebrick")
-                               )
+      ;; org-todo-keywords '((sequence "TODO(t!)" "PAUSED(p!)" "|" )
+      ;;                     (sequence "|" "DONE(d!)"  "NOPE(n!)" "SKIPPED(s!)")
+      ;;                     (sequence "[ ](c!)" "[/](/!)" "[X](f!)")
+      ;;                     (type "IDEA(I)" "GOAL(G)" "PROJECT(P)" "MILESTONE(M)"))
+      ;; org-todo-keyword-faces '(
+      ;;                          ("IDEA" . "gold")
+      ;;                          ("GOAL" . "gold")
+      ;;                          ("PROJECT" . "gold")
+      ;;                          ("MILESTONE" . "gold")
+      ;;                          ("TODO" . "dark orange")
+      ;;                          ("PAUSED" . "royal blue")
+      ;;                          ("DONE" . "green yellow")
+      ;;                          ("SKIPPED" . "firebrick")
+      ;;                          ("NOPE" . "firebrick")
+      ;;)V
 
       org-tag-alist '(;; places
                       ("@body" . ?b) ;; mostly assumed: @home
@@ -89,33 +92,33 @@
  )
 
 (add-hook! 'org-roam-mode-hook :append
-	   '(setq org-roam-dailies-directory "~/notes/org/roam/dailies/"
-		  org-roam-directory "~/notes/org/roam/"))
+           '(setq org-roam-dailies-directory "~/notes/org/roam/dailies/"
+                  org-roam-directory "~/notes/org/roam/"))
 
 
 (after! ledger :append
   (map! :map ledger-mode-map
-	:localleader
-	"o" #'org-babel-tangle-jump-to-org
-	#'org-babel-detangle))
+        :localleader
+        "o" #'org-babel-tangle-jump-to-org
+        #'org-babel-detangle))
 
 
 ;; org-modern-mode overrides
 (after! org-modern-mode
   (setq org-modern-checkbox nil
-	org-modern-hide-stars nil
-	org-modern-list nil
-	org-modern-star nil
-	org-modern-fold-stars nil
+        org-modern-hide-stars nil
+        org-modern-list nil
+        org-modern-star nil
+        org-modern-fold-stars nil
         org-modern-checkbox nil
         org-modern-priority nil
-	org-modern-replace-stars nil)
+        org-modern-replace-stars nil)
   (custom-set-faces
    '(org-modern-label ((t (
                            :foreground "white"
                            :inherit default
-			   :weight bold
-			   :box (:line-width (0 . 0))))))
+                           :weight bold
+                           :box (:line-width (0 . 0))))))
    '(org-todo ((t (
                    :foreground "yellow"
                    )))))
@@ -129,4 +132,4 @@
   "Align tags on save"
   (when (eq major-mode 'org-mode)
     (org-align-tags t)))
-(add-hook 'before-save-hook #'+org-align-tags-onsave)
+(add-hook! 'before-save-hook #'+org-align-tags-onsave)
