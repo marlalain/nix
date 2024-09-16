@@ -1,6 +1,5 @@
 ;;; $DOOMDIR/org.el -*- lexical-binding: t; -*-
 
-
 (setq org-log-into-drawer t
       org-log-done-with-time t
       org-log-done 'time
@@ -31,32 +30,16 @@
                            (66 . "gold")
                            (67 . "green yellow"))
 
-      ;; org-todo-keywords '((sequence "TODO(t!)" "PAUSED(p!)" "|" )
-      ;;                     (sequence "|" "DONE(d!)"  "NOPE(n!)" "SKIPPED(s!)")
-      ;;                     (sequence "[ ](c!)" "[/](/!)" "[X](f!)")
-      ;;                     (type "IDEA(I)" "GOAL(G)" "PROJECT(P)" "MILESTONE(M)"))
-      ;; org-todo-keyword-faces '(
-      ;;                          ("IDEA" . "gold")
-      ;;                          ("GOAL" . "gold")
-      ;;                          ("PROJECT" . "gold")
-      ;;                          ("MILESTONE" . "gold")
-      ;;                          ("TODO" . "dark orange")
-      ;;                          ("PAUSED" . "royal blue")
-      ;;                          ("DONE" . "green yellow")
-      ;;                          ("SKIPPED" . "firebrick")
-      ;;                          ("NOPE" . "firebrick")
-      ;;)V
-
       org-tag-alist '(;; places
                       ("@body" . ?b) ;; mostly assumed: @home
-		      ("@home" . ?h) ("@out" . ?o) ;; OR
+                      ("@home" . ?h) ("@out" . ?o) ;; OR
 
-		      ;; devices
-		      ("@computer" . ?c) ;; assumed: @home
-		      ("@tower" . ?t) ;; assumed: @computer @home
-		      ("@keyboard" . ?k)
-		      ("@iphone" . ?i)
-		      ("@android" . ?a)
+                      ;; devices
+                      ("@computer" . ?c) ;; assumed: @home
+                      ("@tower" . ?t) ;; assumed: @computer @home
+                      ("@keyboard" . ?k)
+                      ("@iphone" . ?i)
+                      ("@android" . ?a)
 
                       ;; categories/hobbies
                       ("@homelab" . ?l) ;; what relates to my config
@@ -74,22 +57,16 @@
  '(org-level-7 ((t (:weight bold :height 1.0))))
  '(org-level-8 ((t (:weight bold :height 1.0))))
 
- '(org-todo ((t (
-                 ;; :background "black" :box '(:color "black" :line-width '(-3 . -3))
-                 :foreground "dark orange"
+ '(org-todo ((t (:foreground "dark orange"
                  :width condensed
-                 :inverse-video nil ;; t
-                 :box nil
-                 ))))
+                 :inverse-video nil
+                 :box nil))))
 
- '(org-tag ((t (
-                :width condensed
+ '(org-tag ((t (:width condensed
                 :weight bold
-                :foreground "white"
-                ))))
+                :foreground "white"))))
  '(org-todo ((t (:foreground "dark orange"))))
- '(org-done ((t (:foreground "green yellow"))))
- )
+ '(org-done ((t (:foreground "green yellow")))))
 
 (add-hook! 'org-roam-mode-hook :append
            '(setq org-roam-dailies-directory "~/notes/org/roam/dailies/"
@@ -114,15 +91,11 @@
         org-modern-priority nil
         org-modern-replace-stars nil)
   (custom-set-faces
-   '(org-modern-label ((t (
-                           :foreground "white"
+   '(org-modern-label ((t (:foreground "white"
                            :inherit default
                            :weight bold
                            :box (:line-width (0 . 0))))))
-   '(org-todo ((t (
-                   :foreground "yellow"
-                   )))))
-  )
+   '(org-todo ((t (:foreground "yellow"))))))
 
 (visual-line-mode)
 (setq org-superstar-mode nil)

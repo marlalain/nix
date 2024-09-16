@@ -8,10 +8,13 @@
         org-agenda-skip-deadline-if-done t
         org-agenda-skip-timestamp-if-done t
         org-agenda-start-with-log-mode t
-        org-agenda-block-separator " "
+        org-agenda-include-diary t
+        org-agenda-block-separator nil
         org-agenda-compact-blocks t
-        org-agenda-dim-blocked-tasks 'invisible
-        ))
+        org-agenda-dim-blocked-tasks 'invisible ;; no need to see what I can't work on
+        )
+  ;; so there's no bright green line in the agenda
+  (custom-set-faces '(org-agenda-done ((t (:inherit nil))))))
 
 (use-package! org-super-agenda
   :after org-agenda

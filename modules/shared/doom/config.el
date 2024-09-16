@@ -213,3 +213,9 @@
                                 )))
 
 (load! "irc")
+(use-package! org-journal
+  :after org
+  :config
+  (setq org-journal-enable-agenda-integration t))
+
+;; (setq exec-path (append exec-path '("/nix/store/dddrswg50rk1l75s2c93g82zh580zzzs-leiningen-2.10.0/bin")))

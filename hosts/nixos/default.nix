@@ -257,6 +257,8 @@ in {
     font-awesome
     noto-fonts
     noto-fonts-emoji
+    tewi-font
+    departure-mono
   ];
 
   environment.systemPackages = with pkgs; [

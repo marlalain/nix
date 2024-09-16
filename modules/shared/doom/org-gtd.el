@@ -24,3 +24,25 @@
 
 (add-hook! org-gtd-organize-hooks
            :append (org-set-effort))
+
+(defun my/org-update-todo-on-deadline-day ()
+  "Set TODO items to NEXT on the day of their deadline."
+  (interactive)
+  (let ((today (time-to-days (current-time))))
+    (dolist (file (org-agenda-files))
+      (with-current-buffer (find-file-noselect file)
+        (org-with-wide-buffer (org-map-entries (lambda ()
+                                                 (let* ((deadline (org-entry-get nil "DEADLINE"))
+                                                        (scheduled (org-entry-get nil "SCHEDULED"))
+                                                        (state (org-get-todo-state))
+                                                        (deadline-days (when deadline (time-to-days (org-time-string-to-time deadline))))
+                                                        (scheduled-days (when scheduled (time-to-days (org-time-string-to-time scheduled)))))
+                                                   (when (and (not (member state '("NEXT")))
+                                                              (or (and deadline-days (<= deadline-days today))
+                                                                  (and scheduled-days (<= scheduled-days today))))
+                                                     (org-todo "NEXT"))))
+                                               nil 'file))))))
+
+
+(run-at-time "12:00am" (* 24 60 60) 'my/org-update-todo-on-deadline-day)
+(my/org-update-todo-on-deadline-day)
