@@ -13,3 +13,7 @@
      (objed-mode (my/evil-switch))
      (evil-mode (my/objed-switch))
      (t (message "impossible state"))))
+
+(defun my/transpose-sexp-backward ()
+  (interactive)
+  (transpose-sexps -1))
