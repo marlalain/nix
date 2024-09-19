@@ -1,14 +1,19 @@
-{ config, inputs, pkgs, agenix, ... }:
+{
+  config,
+  inputs,
+  pkgs,
+  agenix,
+  ...
+}:
 
 let
+  hostname = "wired";
   user = "marla";
-  keys = [
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOk8iAnIaa1deoc7jw8YACPNVka1ZFJxhnU4G74TmS+p"
-  ];
-in {
+  keys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOk8iAnIaa1deoc7jw8YACPNVka1ZFJxhnU4G74TmS+p" ];
+in
+{
   imports = [
     ../../modules/nixos/secrets.nix
-    ../../modules/nixos/disk-config.nix
     ../../modules/shared
     ../../modules/shared/cachix
     agenix.nixosModules.default
@@ -16,39 +21,107 @@ in {
 
   # Use the systemd-boot EFI boot loader.
   boot = {
-    loader = {
-      systemd-boot = {
-        enable = true;
-        configurationLimit = 42;
-      };
-      efi.canTouchEfiVariables = true;
+    loader.grub = {
+      enable = true;
+      zfsSupport = true;
+      efiSupport = true;
+      efiInstallAsRemovable = true;
+      useOSProber = true;
+      mirroredBoots = [
+        {
+          devices = [ "nodev" ];
+          path = "/boot";
+        }
+      ];
+      # systemd-boot = {
+      #   enable = true;
+      #   configurationLimit = 42;
+      # };
+      # efi.canTouchEfiVariables = true;
     };
-    initrd.availableKernelModules =
-      [ "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" ];
-    # Uncomment for AMD GPU
-    # initrd.kernelModules = [ "amdgpu" ];
+    initrd.availableKernelModules = [
+      "xhci_pci"
+      "ahci"
+      "nvme"
+      "usbhid"
+      "usb_storage"
+      "sd_mod"
+    ];
     kernelPackages = pkgs.linuxPackages_latest;
     kernelModules = [ "uinput" ];
+    blacklistedKernelModules = [
+      "nouveau"
+      "nvidiafb"
+    ];
+    extraModprobeConfig = ''
+      softdep nvidia post: nvidia-uvm
+    '';
   };
 
-  # Set your time zone.
+  fileSystems = {
+    "/" = {
+      device = "party/root";
+      fsType = "zfs";
+    };
+
+    "/boot" = {
+      device = "/dev/disk/by-uuid/F2A4-FB86";
+      fsType = "vfat";
+    };
+
+    "/nix" = {
+      device = "party/nix";
+      fsType = "zfs";
+    };
+
+    "/var" = {
+      device = "party/var";
+      fsType = "zfs";
+      options = [ "noexec" ];
+    };
+
+    "/home" = {
+      device = "party/home";
+      fsType = "zfs";
+    };
+  };
+  swapDevices = [ ];
+
   time.timeZone = "America/Sao_Paulo";
+  i18n.defaultLocale = "en_US.UTF-8";
 
-  # The global useDHCP flag is deprecated, therefore explicitly set to false here.
-  # Per-interface useDHCP will be mandatory in the future, so this generated config
-  # replicates the default behaviour.
   networking = {
-    hostName = "wired"; # Define your hostname.
-    useDHCP = false;
-    interfaces."enp4s0".useDHCP = false;
+    hostName = hostname;
+    hostId = "deadb33f";
+    networkmanager.enable = true;
+    hosts = {
+      "10.0.0.2" = [ "the.wired" ];
+      "10.0.0.42" = [ "mac.studio" ];
+    };
+    firewall = {
+      enable = true;
+      trustedInterfaces = [ "tailscale0" ];
+      allowedTCPPorts = [
+        22
+        443
+      ];
+      allowedUDPPorts = [ ];
+    };
   };
 
-  # Turn on flag for proprietary software
   nix = {
-    nixPath =
-      [ "nixos-config=/home/${user}/.local/share/src/nixos-config:/etc/nixos" ];
-    settings.allowed-users = [ "${user}" ];
-    package = pkgs.nix;
+    nixPath = [ "nixos-config=/home/${user}/.local/share/src/nixos-config:/etc/nixos" ];
+    settings = {
+      allowed-users = [
+        "${user}"
+        "@wheel"
+      ];
+      trusted-users = [
+        "${user}"
+        "@wheel"
+      ];
+    };
+    package = pkgs.nix; # or pkgs.nixFlakes
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
@@ -62,42 +135,77 @@ in {
   };
 
   services = {
-    xserver = {
-      enable = true;
+    zfs = {
+      autoScrub.enable = true;
+      autoSnapshot.enable = true;
+    };
 
-      # Uncomment these for AMD or Nvidia GPU
-      # videoDrivers = [ "amdgpu" ];
+    nix-serve = {
+      enable = true;
+      openFirewall = true;
+      package = pkgs.nix-serve;
+      port = 8080;
+    };
+
+    openssh = {
+      allowSFTP = false;
+
+      settings = {
+        PermitRootLogin = "no";
+        PasswordAuthentication = false;
+        AlllowUsers = [ "@{user}" ];
+        PrintMotd = false;
+      };
+    };
+
+    tailscale = {
+      enable = true;
+      authKeyFile = "/home/marla/.keys/tailscale-auth-key";
+    };
+
+    pipewire = {
+      enable = true;
+      pulse.enable = true;
+    };
+
+    caddy = {
+      enable = false;
+      configFile = pkgs.writeText "Caddyfile" '''';
+    };
+
+    # Better support for general peripherals
+    libinput.enable = false;
+
+    displayManager.defaultSession = "none+bspwm";
+    xserver = {
+      enable = false;
       # videoDrivers = [ "nvidia" ];
 
-      # Uncomment this for Nvidia GPU
       # This helps fix tearing of windows for Nvidia cards
-      # services.xserver.screenSection = ''
-      #   Option       "metamodes" "nvidia-auto-select +0+0 {ForceFullCompositionPipeline=On}"
-      #   Option       "AllowIndirectGLXProtocol" "off"
-      #   Option       "TripleBuffer" "on"
-      # '';
+      screenSection = ''
+        Option       "metamodes" "nvidia-auto-select +0+0 {ForceFullCompositionPipeline=On}"
+        Option       "AllowIndirectGLXProtocol" "off"
+        Option       "TripleBuffer" "on"
+      '';
 
       # LightDM Display Manager
-      displayManager.defaultSession = "none+bspwm";
       displayManager.lightdm = {
-        enable = true;
-        greeters.slick.enable = true;
+        enable = false;
+        greeters.slick.enable = false;
         background = ../../modules/nixos/config/login-wallpaper.png;
       };
 
       # Tiling window manager
-      windowManager.bspwm = { enable = true; };
+      windowManager.bspwm = {
+        enable = false;
+      };
 
       # Turn Caps Lock into Ctrl
-      layout = "us";
-      xkbOptions = "ctrl:nocaps";
-
-      # Better support for general peripherals
-      libinput.enable = true;
+      xkb = {
+        options = "ctrl:nocaps";
+        layout = "us";
+      };
     };
-
-    # Let's be able to SSH into this machine
-    openssh.enable = false;
 
     # Picom, my window compositor with fancy effects
     #
@@ -123,8 +231,10 @@ in {
         animation-for-menu-window = "none";
         animation-for-transient-window = "slide-down";
         corner-radius = 12;
-        rounded-corners-exclude =
-          [ "class_i = 'polybar'" "class_g = 'i3lock'" ];
+        rounded-corners-exclude = [
+          "class_i = 'polybar'"
+          "class_g = 'i3lock'"
+        ];
         round-borders = 3;
         round-borders-exclude = [ ];
         round-borders-rule = [ ];
@@ -184,10 +294,18 @@ in {
             focus = true;
             full-shadow = false;
           };
-          dock = { shadow = false; };
-          dnd = { shadow = false; };
-          popup_menu = { opacity = 1.0; };
-          dropdown_menu = { opacity = 1.0; };
+          dock = {
+            shadow = false;
+          };
+          dnd = {
+            shadow = false;
+          };
+          popup_menu = {
+            opacity = 1.0;
+          };
+          dropdown_menu = {
+            opacity = 1.0;
+          };
         };
       };
     };
@@ -203,53 +321,57 @@ in {
   };
 
   # When emacs builds from no cache, it exceeds the 90s timeout default
-  systemd.user.services.emacs = { serviceConfig.TimeoutStartSec = "7min"; };
-
-  # Enable CUPS to print documents
-  # services.printing.enable = true;
-  # services.printing.drivers = [ pkgs.brlaser ]; # Brother printer driver
-
-  # Enable sound
-  sound.enable = true;
-  hardware.pulseaudio.enable = true;
-
-  # Video support
-  hardware = {
-    opengl.enable = true;
-    # nvidia.modesetting.enable = true;
-
-    # Enable Xbox support
-    # xone.enable = true;
-
-    # Crypto wallet support
-    # ledger.enable = true;
+  systemd.user.services.emacs = {
+    serviceConfig.TimeoutStartSec = "7min";
   };
 
+  # Video support
+  hardware = { };
+
   # Add docker daemon
-  virtualisation.docker.enable = true;
-  virtualisation.docker.logDriver = "json-file";
+  virtualisation.docker = {
+    enable = true;
+    logDriver = "json-file";
+  };
 
   # It's me, it's you, it's everyone
   users.users = {
     ${user} = {
       isNormalUser = true;
-      extraGroups = [ "wheel" "docker" ];
+      home = "/home/${user}";
+      extraGroups = [
+        "wheel"
+        "docker"
+        "driver"
+        "wireshark"
+      ];
       shell = pkgs.zsh;
       openssh.authorizedKeys.keys = keys;
     };
 
-    root = { openssh.authorizedKeys.keys = keys; };
+    root = {
+      openssh.authorizedKeys.keys = keys;
+    };
   };
 
-  # Don't require password for users in `wheel` group for these commands
-  security.sudo.enable = false;
-  security.doas = {
-    enable = true;
-    extraRules = [{
-      users = [ "${user}" ];
-      keepEnv = true;
-      persist = true;
-    }];
+  security = {
+    auditd.enable = true;
+    audit = {
+      enable = true;
+      rules = [ "-a exit,always -F arch=b64 -S execve" ];
+    };
+
+    sudo.enable = false;
+    doas = {
+      enable = true;
+      extraRules = [
+        {
+          users = [ "${user}" ];
+          keepEnv = true;
+          persist = true;
+        }
+      ];
+    };
   };
 
   fonts.packages = with pkgs; [
@@ -262,11 +384,18 @@ in {
     noto-fonts-emoji
   ];
 
-  environment.systemPackages = with pkgs; [
-    agenix.packages."${pkgs.system}".default # "x86_64-linux"
-    gitAndTools.gitFull
-    inetutils
-  ];
+  environment = {
+    pathsToLink = [ "/libexec" ];
+    systemPackages = with pkgs; [
+      agenix.packages."${pkgs.system}".default # "x86_64-linux"
+      gitAndTools.gitFull
+      inetutils
+      vim
+      wget
+      dislocker
+      doas-sudo-shim
+    ];
+  };
 
   system.stateVersion = "21.05"; # Don't change this
 }
