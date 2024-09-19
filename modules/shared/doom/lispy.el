@@ -19,6 +19,8 @@
     ("T" "backward" my/transpose-sexp-backward :transient t)]
    ["special"
     ("u" "undo" evil-undo :transient t)
+    ("ii" "insert" evil-insert)
+    ("f" "<lainleader>" evil-find-char)
     ("O" "objed" my/keybind-switch)
     ("q" "quit" transient-quit-all)]
    ["raise"
@@ -34,7 +36,7 @@
     ""
     "open"
     ("ok" "above" lispyville-open-above-list)
-    ("ob" "below" lispyville-open-below-list)]
+    ("oj" "below" lispyville-open-below-list)]
    ["inner"
     ("ia" "atom" lispyville-inner-atom :transient t)
     ("il" "list" lispyville-inner-list :transient t)
