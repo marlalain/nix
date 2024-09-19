@@ -45,7 +45,7 @@
                     ))
 
 ;; avy
-(map! :n "s-g" #'avy-goto-char-timer) ;; too hard to press with current delay configs, should be something else
+(map! :leader "j" #'avy-goto-char-timer)
 
 (map! :map nov-mode-map
       :desc "next page" :n "RET" #'nov-scroll-up

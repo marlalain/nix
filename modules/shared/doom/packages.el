@@ -68,3 +68,5 @@
 (package! nov)
 (package! tramp)
 (package! hydra)
+
+(package! modus-themes)

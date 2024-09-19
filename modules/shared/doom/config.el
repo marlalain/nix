@@ -4,6 +4,11 @@
 (menu-bar-mode 0) ;; FIXME doesn't let yabai tile emacs still
 (display-time-mode 1)
 
+(setq
+ modus-themes-bold-constructs t
+ modus-themes-italic-constructs nil
+ modus-themes-mode-line (quote (borderless moody)))
+
 (add-hook! '+doom-dashboard-functions :append
   (insert "\n" (+doom-dashboard--center +doom-dashboard--width "how you do anything is how you do everything")))
 
@@ -63,27 +68,28 @@
 
 (setq +doom-dashboard-ascii-banner-fn #'my-weebery-is-always-greater)
 
-(setq doom-theme 'doom-one)
-
 ;; TODO extract
 ;; sane line highlights
 (custom-set-faces
- '(hl-line ((t (:underline nil :bold t))))
+ '(hl-line ((t (:background "bg-active" :underline nil :bold t))))
  '(line-number ((t (:background "unspecified" :underline nil))))
  '(line-number-current-line ((t (:background "unspecified" :underline nil :bold t))))
  )
 
 (setq-default tab-width 2
               indent-tabs-mode nil
-              avy-all-windows t)
+              avy-all-windows t
+              avy-single-candidate-jump t
+              )
 
 (setq doom-font (font-spec :family "Inconsolata" :size 22)
       doom-variable-pitch-font (font-spec :family "Inconsolata" :size 22 :weight 'semi-light)
       doom-big-font (font-spec :family "Inconsolata" :size 26)
       doom-localleader-key "," ;; instead of `SPC m`
-      doom-theme 'doom-meltbus ;; or doom-opera wombat
+      doom-theme 'modus-vivendi ;; or doom-meltbus doom-opera doom-pine
       doom-themes-enable-bold t
       doom-themes-enable-italic nil ;; it's code not prose
+      modus-themes-mode-line '(moody borderless)
       doom-modeline-hud nil
       doom-modeline-time-analogue-clock nil
       doom-modeline-workspace-name nil
@@ -99,8 +105,7 @@
       user-mail-address "marla@albuque.com"
       tab-width 2
       indent-tabs-mode nil
-      indent-line-function 'insert-tab
-      )
+      indent-line-function 'insert-tab)
 
 (add-hook! 'doom-init-ui-hook
   (setq doom-symbol (font-spec :family "Inconsolata" :size 22))) ;; so it doesn't get overwritten
@@ -188,8 +193,6 @@
   (unless (server-running-p) (server-start))
   )
 
-(doom/reload-theme)
-
 (use-package! tramp
   :defer t
   :config
@@ -213,9 +216,14 @@
                                 )))
 
 (load! "irc")
+(load! "git")
 (use-package! org-journal
   :after org
   :config
   (setq org-journal-enable-agenda-integration t))
+
+(use-package! lispyville
+  :config
+  (load! "lispy"))
 
 ;; (setq exec-path (append exec-path '("/nix/store/dddrswg50rk1l75s2c93g82zh580zzzs-leiningen-2.10.0/bin")))
