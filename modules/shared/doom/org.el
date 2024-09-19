@@ -105,4 +105,4 @@
   "Align tags on save"
   (when (eq major-mode 'org-mode)
     (org-align-tags t)))
-(add-hook! 'before-save-hook #'+org-align-tags-onsave)
+(add-hook! 'before-save-hook :append #'+org-align-tags-onsave)

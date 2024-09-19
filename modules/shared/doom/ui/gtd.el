@@ -23,5 +23,4 @@
    (my/transient/engage)
    ("E" "engage by context" org-gtd-engage)
    ;; ("c" "capture" my/transient/capture :transient t)
-   ("q" "quit" transient-quit-one)
-   ])
+   ("q" "quit" transient-quit-one)])

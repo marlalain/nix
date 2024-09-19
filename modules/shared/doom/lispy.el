@@ -2,6 +2,8 @@
 
 (lispyville-enter-special-when-marking)
 
+(setq lispy-teleport-global t)                                                    
+
 (transient-define-prefix my/lispy ()
   "quick actions for lispy/lispyville"
   [["motion"
@@ -16,11 +18,13 @@
     ("J" "down" lispy-move-down :transient t)]
    ["transpose"
     ("t" "forward" transpose-sexps :transient t)
-    ("T" "backward" my/transpose-sexp-backward :transient t)]
+    ("T" "backward" my/transpose-sexp-backward :transient t)
+    ""
+    ("p" "teleport" lispy-teleport :transient t)]
    ["special"
     ("u" "undo" evil-undo :transient t)
-    ("ii" "insert" evil-insert)
     ("f" "<lainleader>" evil-find-char)
+    ("ii" "insert" evil-insert)
     ("O" "objed" my/keybind-switch)
     ("q" "quit" transient-quit-all)]
    ["raise"
@@ -44,6 +48,13 @@
     ("if" "function" lispyville-inner-function :transient t)
     ("ic" "comment" lispyville-inner-comment :transient t)
     ("is" "string" lispyville-inner-string :transient t)]
+   ["around"
+    ("aa" "atom" lispyville-a-atom :transient t)
+    ("al" "list" lispyville-a-list :transient t)
+    ("ae" "sexp" lispyville-a-sexp :transient t)
+    ("af" "function" lispyville-a-function :transient t)
+    ("ac" "comment" lispyville-a-comment :transient t)
+    ("as" "string" lispyville-a-string :transient t)]
    ["barf"
     ("<" "backward" lispy-backward-barf-sexp :transient t)
     ("," "forward" lispy-forward-barf-sexp :transient t)
@@ -58,7 +69,8 @@
     ("s" "splice" lispy-splice :transient t)
     ("S" "split" lispy-split :transient t)]])
 
-
 (map! :map lispy-mode-map
       :n "f" 'my/lispy
-      :n "m" #'lispy-mark)
+      :n "m" #'lispy-mark
+      :n "=" 'lispyville-prettify)                         
+                                                           
